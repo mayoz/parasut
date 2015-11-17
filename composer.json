@@ -1,0 +1,27 @@
+{
+    "name": "mayoz/parasut",
+    "type": "library",
+    "description": "An easy-to-use Parasut's API with PHP.",
+    "keywords": [
+        "gateway",
+        "parasut",
+        "invoice"
+    ],
+    "homepage": "https://github.com/mayoz/parasut",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Sercan Çakır",
+            "email": "srcnckr@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Parasut\\": "src"
+        }
+    },
+    "require": {
+        "php": ">=5.5.9",
+        "ext-curl": "*"
+    }
+}
