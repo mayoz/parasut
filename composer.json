@@ -18,7 +18,10 @@
     "autoload": {
         "psr-4": {
             "Parasut\\": "src"
-        }
+        },
+        "files": [
+            "src/helpers.php"
+        ]
     },
     "require": {
         "php": ">=5.5.9",
