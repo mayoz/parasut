@@ -24,7 +24,7 @@ use Parasut\Bundle;
 class Product extends Builder
 {
     /**
-     * Get all products with paginate.
+     * Retrieve all products with pagination.
      *
      * @param  int  $page
      * @param  int  $limit
@@ -52,7 +52,7 @@ class Product extends Builder
     }
 
     /**
-     * Retrieve a product informations by its own id.
+     * Retrieve a product informations via its own id.
      *
      * @param  int   $id
      * @return array
@@ -63,7 +63,7 @@ class Product extends Builder
     }
 
     /**
-     * Update the existing product.
+     * Update the product with given arguments.
      *
      * @param  int    $id
      * @param  array  $params
@@ -77,7 +77,7 @@ class Product extends Builder
     }
 
     /**
-     * Delete the existing product.
+     * Delete an existing product.
      *
      * @param  int    $id
      * @return array

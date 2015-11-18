@@ -24,7 +24,7 @@ use Parasut\Bundle;
 class Expense extends Builder
 {
     /**
-     * Get all expenses with paginate.
+     * Retrieve all expenses with pagination.
      *
      * @param  int  $page
      * @param  int  $limit
@@ -39,7 +39,7 @@ class Expense extends Builder
     }
 
     /**
-     * Get all expenses by paginate with spesific month of the year.
+     * Retrieve all expenses by pagination with spesific month of the year.
      *
      * @param  int  $year
      * @param  int  $month
@@ -69,7 +69,7 @@ class Expense extends Builder
     }
 
     /**
-     * Retrieve a expense informations by its own id.
+     * Retrieve a expense informations via its own id.
      *
      * @param  int   $id
      * @return array
@@ -80,7 +80,7 @@ class Expense extends Builder
     }
 
     /**
-     * Update the existing expense.
+     * Update the expense with given arguments.
      *
      * @param  int    $id
      * @param  array  $params
@@ -94,7 +94,7 @@ class Expense extends Builder
     }
 
     /**
-     * Delete the existing expense.
+     * Delete an existing expense.
      *
      * @param  int    $id
      * @return array
@@ -105,7 +105,7 @@ class Expense extends Builder
     }
 
     /**
-     * Retrieve trashed expenses id.
+     * Retrieve the trashed expenses ids.
      *
      * @param  string  $timestamp
      * @return array

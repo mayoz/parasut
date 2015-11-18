@@ -24,7 +24,7 @@ use Parasut\Bundle;
 class Purchase extends Builder
 {
     /**
-     * Get all purchase invoices with paginate.
+     * Retrieve all purchase invoices with pagination.
      *
      * @param  int  $page
      * @param  int  $limit
@@ -52,7 +52,7 @@ class Purchase extends Builder
     }
 
     /**
-     * Retrieve a purchase invoice informations by its own id.
+     * Retrieve a purchase invoice informations via its own id.
      *
      * @param  int   $id
      * @return array
@@ -63,7 +63,7 @@ class Purchase extends Builder
     }
 
     /**
-     * Update the existing purchase invoice.
+     * Update the purchase invoice with given arguments.
      *
      * @param  int    $id
      * @param  array  $params
@@ -88,7 +88,7 @@ class Purchase extends Builder
     }
 
     /**
-     * Delete the existing purchase invoice.
+     * Delete an existing purchase invoice.
      *
      * @param  int    $id
      * @return array
@@ -99,7 +99,7 @@ class Purchase extends Builder
     }
 
     /**
-     * Retrieve trashed purchase invoices id.
+     * Retrieve the trashed purchase invoices ids.
      *
      * @param  string  $timestamp
      * @return array

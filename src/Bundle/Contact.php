@@ -24,7 +24,7 @@ use Parasut\Bundle;
 class Contact extends Builder
 {
     /**
-     * Get all contacts with paginate.
+     * Retrieve all contacts with pagination.
      *
      * @param  int  $page
      * @param  int  $limit
@@ -52,7 +52,7 @@ class Contact extends Builder
     }
 
     /**
-     * Retrieve a contact informations by its own id.
+     * Retrieve a contact informations via its own id.
      *
      * @param  int   $id
      * @param  bool  $payments
@@ -70,7 +70,7 @@ class Contact extends Builder
     }
 
     /**
-     * Update the existing contact.
+     * Update the contact with given arguments.
      *
      * @param  int    $id
      * @param  array  $params
@@ -84,7 +84,7 @@ class Contact extends Builder
     }
 
     /**
-     * Delete the existing contact.
+     * Delete an existing contact.
      *
      * @param  int    $id
      * @return array

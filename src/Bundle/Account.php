@@ -24,7 +24,7 @@ use Parasut\Bundle;
 class Account extends Bundle
 {
     /**
-     * Get all accounts.
+     * Retrieve all accounts with pagination.
      *
      * @param  int  $page
      * @param  int  $limit
@@ -39,7 +39,7 @@ class Account extends Bundle
     }
 
     /**
-     * Retrieve a account informations.
+     * Retrieve an account informations.
      *
      * @param  int   $id
      * @param  bool  $transactions

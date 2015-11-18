@@ -24,7 +24,7 @@ use Parasut\Bundle;
 class Sale extends Builder
 {
     /**
-     * Get all sale invoices with paginate.
+     * Retrieve all sales invoices with pagination.
      *
      * @param  int  $page
      * @param  int  $limit
@@ -39,7 +39,7 @@ class Sale extends Builder
     }
 
     /**
-     * Create a new sale invoice.
+     * Create a new sales invoice.
      *
      * @param  array  $params
      * @return array
@@ -52,7 +52,7 @@ class Sale extends Builder
     }
 
     /**
-     * Retrieve a sale invoice informations by its own id.
+     * Retrieve a sales invoice informations via its own id.
      *
      * @param  int   $id
      * @return array
@@ -63,7 +63,7 @@ class Sale extends Builder
     }
 
     /**
-     * Update the existing sale invoice.
+     * Update the sales invoice with given arguments.
      *
      * @param  int    $id
      * @param  array  $params
@@ -77,7 +77,7 @@ class Sale extends Builder
     }
 
     /**
-     * Convert estimate to invoice
+     * Convert estimate to invoice.
      *
      * @param  int  $id
      * @return array
@@ -88,7 +88,7 @@ class Sale extends Builder
     }
 
     /**
-     * Delete the existing sale invoice.
+     * Delete an existing sales invoice.
      *
      * @param  int    $id
      * @return array
@@ -99,7 +99,7 @@ class Sale extends Builder
     }
 
     /**
-     * Retrieve trashed sale invoices id.
+     * Retrieve the trashed sales invoices ids.
      *
      * @param  string  $timestamp
      * @return array

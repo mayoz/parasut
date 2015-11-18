@@ -24,7 +24,7 @@ use Parasut\Bundle;
 class Category extends Builder
 {
     /**
-     * Get all categories with paginate.
+     * Retrieve all categories with pagination.
      *
      * @param  int  $page
      * @param  int  $limit
@@ -52,7 +52,7 @@ class Category extends Builder
     }
 
     /**
-     * Retrieve a category informations by its own id.
+     * Retrieve a category informations via its own id.
      *
      * @param  int   $id
      * @return array
@@ -63,7 +63,7 @@ class Category extends Builder
     }
 
     /**
-     * Update the existing category.
+     * Update the category with given arguments.
      *
      * @param  int    $id
      * @param  array  $params
@@ -77,7 +77,7 @@ class Category extends Builder
     }
 
     /**
-     * Delete the existing category.
+     * Delete an existing category.
      *
      * @param  int    $id
      * @return array
