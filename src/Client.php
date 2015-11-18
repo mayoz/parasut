@@ -11,10 +11,10 @@
 
 namespace Parasut;
 
-use Parasut\Exception\UnauthorizedException;
-use Parasut\Exception\NotFoundException;
-use Parasut\Exception\UnprocessableEntityException;
 use Parasut\Exception\InternalServerErrorException;
+use Parasut\Exception\NotFoundException;
+use Parasut\Exception\UnauthorizedException;
+use Parasut\Exception\UnprocessableEntityException;
 
 /**
  * Client
@@ -27,42 +27,49 @@ use Parasut\Exception\InternalServerErrorException;
 class Client
 {
     /**
-     * The API base URL.
+     * The base api url.
      *
      * @return string
      */
     const API_URL = 'https://api.parasut.com/v1';
 
     /**
-     * The OAuth token URL.
+     * The oAuth token url.
      *
      * @var string
      */
     const API_TOKEN_URL = 'https://api.parasut.com/oauth/token';
 
     /**
-     * The related company id.
-     *
-     * @var int
-     */
-    protected $id;
-
-    /**
-     * The list of bundles.
+     * All of the configuration items.
      *
      * @var array
      */
-    protected $bundles = [
-        'account'  => '\Parasut\Bundle\Account',
-        'category' => '\Parasut\Bundle\Category',
-        'contact'  => '\Parasut\Bundle\Contact',
-        'expense'  => '\Parasut\Bundle\Expense',
-        'product'  => '\Parasut\Bundle\Product',
-        'purchase' => '\Parasut\Bundle\Purchase',
+    protected $config;
+
+    /**
+     * The value of access token.
+     *
+     * @var string
+     */
+    protected $accessToken;
+
+    /**
+     * The registered type aliases.
+     *
+     * @var array
+     */
+    protected $aliases = [
+        'account'  => Bundle\Account::class,
+        'category' => Bundle\Category::class,
+        'contact'  => Bundle\Contact::class,
+        'expense'  => Bundle\Expense::class,
+        'product'  => Bundle\Product::class,
+        'purchase' => Bundle\Purchase::class,
     ];
 
     /**
-     * The list of resolved bundles.
+     * An array of the types that have been resolved.
      *
      * @var array
      */
@@ -71,39 +78,52 @@ class Client
     /**
      * Constructor.
      *
-     * @param  int  $id
+     * @param  array  $config
      * @return void
      */
-    public function __construct($id)
+    public function __construct(array $config)
     {
-        $this->id = $id;
+        $this->config = $config;
     }
 
     /**
-     * Generate the api url.
+     * Generate a new endpoint url.
      *
      * @param  string  $prefix
      * @param  bool  $includeId
      * @return string
      */
-    public function apiUrl($prefix = null)
+    public function endpointUrl($prefix = null, $includeId = true)
     {
-        return implode(array_filter([
-            self::API_URL, $this->getId(), trim($prefix, '/')
-        ]), '/');
+        $url = self::API_URL;
+
+        // push company id
+        if ($includeId) {
+            $url = $url .'/'. $this->getCompanyId();
+        }
+
+        // push prefix
+        if ($prefix = trim($prefix, '/')) {
+            $url = $url .'/'. $prefix;
+        }
+
+        return $url;
     }
 
     /**
      * Send a new authorization request.
      *
-     * @param  string  $token
      * @return $this
      */
-    public function authorize(array $config)
+    public function authorize()
     {
-        $response = $this->send(self::API_TOKEN_URL, false, $config, 'POST');
+        $response = $this->send(self::API_TOKEN_URL, false, array_only($this->config, [
+            'client_id', 'client_secret', 'redirect_uri', 'username', 'password', 'grant_type'
+        ]), 'POST');
 
-        $this->setToken($response['access_token']);
+        if ($token = array_get($response, 'access_token')) {
+            $this->setAccessToken($token);
+        }
 
         return $this;
     }
@@ -114,9 +134,9 @@ class Client
      * @param  string  $token
      * @return $this
      */
-    public function setToken($token)
+    public function setAccessToken($token)
     {
-        $this->access_token = $token;
+        $this->accessToken = $token;
 
         return $this;
     }
@@ -126,23 +146,76 @@ class Client
      *
      * @return string
      */
-    public function getToken()
+    public function getAccessToken()
     {
-        return $this->access_token;
+        return $this->accessToken;
     }
 
     /**
-     * Get account information.
+     * Set the company id.
+     *
+     * @param  int  $companyId
+     * @return $this
+     */
+    public function setCompanyId($companyId)
+    {
+        $this->config['company_id'] = $companyId;
+
+        return $this;
+    }
+
+    /**
+     * Get the company id.
+     *
+     * @return int
+     */
+    public function getCompanyId()
+    {
+        return array_get($this->config, 'company_id');
+    }
+
+    /**
+     * Retrieve the resolved instance or build an instance of the type.
+     *
+     * @param  string  $type
+     * @return mixed
+     */
+    public function make($type)
+    {
+        if ($instance = array_get($this->resolved, $type)) {
+            return $instance;
+        }
+
+        return $this->build($type);
+    }
+
+    /**
+     * Build an instance of the type.
+     *
+     * @param  string  $type
+     * @return mixed
+     */
+    protected function build($type)
+    {
+        if ($concrete = array_get($this->aliases, $type)) {
+            return $this->resolved[$type] = new $concrete($this);
+        }
+
+        throw new InternalServerErrorException;
+    }
+
+    /**
+     * Retrieve an account information.
      *
      * @return array
      */
     public function me()
     {
-        return $this->send(self::API_URL . '/me', true, null, 'GET');
+        return $this->send($this->endpointUrl('me', false), true, null, 'GET');
     }
 
     /**
-     * Call request with autorization.
+     * Create a new request with autorization.
      *
      * @param  string  $function
      * @param  array   $params
@@ -151,13 +224,13 @@ class Client
      */
     public function call($function, array $params = null, $method = 'GET')
     {
-        $url = $this->apiUrl($function);
+        $url = $this->endpointUrl($function);
 
         return $this->send($url, true, $params, $method);
     }
 
     /**
-     * Send a new request.
+     * Create a new request.
      *
      * @param  string  $url
      * @param  bool    $auth
@@ -171,8 +244,8 @@ class Client
         $headers[] = 'Accept: application/json';
 
         if ($auth) {
-            $headers[] = 'Authorization: Bearer ' . $this->getToken();
-            $params['access_token'] = $this->getToken();
+            $headers[] = 'Authorization: Bearer ' . $this->getAccessToken();
+            $params['access_token'] = $this->getAccessToken();
         }
 
         $querystring = null;
@@ -225,28 +298,5 @@ class Client
                 return $response;
                 break;
         }
-    }
-
-    /**
-     * Setter overloading method.
-     *
-     * @param  string  $name
-     * @return mixed
-     */
-    public function __get($name)
-    {
-        // retrieve resolved
-        if (array_key_exists($name, $this->resolved)) {
-            return $resolved[$name];
-        }
-
-        // push resolved
-        if (array_key_exists($name, $this->bundles)) {
-            $this->resolved[$name] = new $this->bundles[$name]($this);
-
-            return $this->resolved[$name];
-        }
-
-        parent::__get($name);
     }
 }
