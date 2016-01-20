@@ -66,6 +66,7 @@ class Client
         'expense'  => Bundle\Expense::class,
         'product'  => Bundle\Product::class,
         'purchase' => Bundle\Purchase::class,
+        'sale'     => Bundle\Sale::class,
     ];
 
     /**
