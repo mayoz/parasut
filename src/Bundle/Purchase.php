@@ -21,7 +21,7 @@ use Parasut\Bundle;
  * @license   MIT License
  * @copyright 2015
  */
-class Purchase extends Builder
+class Purchase extends Bundle
 {
     /**
      * Retrieve all purchase invoices with pagination.

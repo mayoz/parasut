@@ -21,7 +21,7 @@ use Parasut\Bundle;
  * @license   MIT License
  * @copyright 2015
  */
-class Expense extends Builder
+class Expense extends Bundle
 {
     /**
      * Retrieve all expenses with pagination.

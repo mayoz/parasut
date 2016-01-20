@@ -21,7 +21,7 @@ use Parasut\Bundle;
  * @license   MIT License
  * @copyright 2015
  */
-class Category extends Builder
+class Category extends Bundle
 {
     /**
      * Retrieve all categories with pagination.

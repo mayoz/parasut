@@ -21,7 +21,7 @@ use Parasut\Bundle;
  * @license   MIT License
  * @copyright 2015
  */
-class Product extends Builder
+class Product extends Bundle
 {
     /**
      * Retrieve all products with pagination.

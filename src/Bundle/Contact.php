@@ -21,7 +21,7 @@ use Parasut\Bundle;
  * @license   MIT License
  * @copyright 2015
  */
-class Contact extends Builder
+class Contact extends Bundle
 {
     /**
      * Retrieve all contacts with pagination.
