@@ -77,6 +77,20 @@ class Sale extends Bundle
     }
 
     /**
+     * Marked paid the sales invoice with given arguments.
+     *
+     * @param  int    $id
+     * @param  array  $params
+     * @return array
+     */
+    public function paid($id, array $params)
+    {
+        return $this->client->call("sales_invoices/{$id}/payments", [
+            'payment' => $params
+        ], 'POST');
+    }
+
+    /**
      * Convert estimate to invoice.
      *
      * @param  int  $id
