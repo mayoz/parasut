@@ -29,6 +29,6 @@ class UnprocessableEntityException extends HttpException
      */
     public function __construct($message = null)
     {
-        parent::__construct($message, 422, );
+        parent::__construct($message, 422);
     }
 }
