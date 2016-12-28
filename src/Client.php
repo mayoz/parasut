@@ -290,7 +290,7 @@ class Client
                 throw new NotFoundException;
                 break;
             case '422':
-                throw new UnprocessableEntityException($response);
+                throw new UnprocessableEntityException($jsonData);
                 break;
             case '500':
                 throw new InternalServerErrorException;
