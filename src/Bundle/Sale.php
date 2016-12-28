@@ -34,7 +34,7 @@ class Sale extends Bundle
     {
         return $this->client->call("sales_invoices", [
             'page' => $page,
-            'per_page' => $limit
+            'per_page' => $limit,
         ], 'GET');
     }
 
@@ -47,7 +47,7 @@ class Sale extends Bundle
     public function create(array $params)
     {
         return $this->client->call("sales_invoices", [
-            'sales_invoice' => $params
+            'sales_invoice' => $params,
         ], 'POST');
     }
 
@@ -72,7 +72,7 @@ class Sale extends Bundle
     public function update($id, array $params)
     {
         return $this->client->call("sales_invoices/{$id}", [
-            'sales_invoice' => $params
+            'sales_invoice' => $params,
         ], 'PUT');
     }
 
@@ -86,7 +86,7 @@ class Sale extends Bundle
     public function paid($id, array $params)
     {
         return $this->client->call("sales_invoices/{$id}/payments", [
-            'payment' => $params
+            'payment' => $params,
         ], 'POST');
     }
 
@@ -121,57 +121,70 @@ class Sale extends Bundle
     public function trashed($timestamp)
     {
         return $this->client->call("sales_invoices/deleted_objects", array_filter([
-            'last_synch' => $timestamp
+            'last_synch' => $timestamp,
         ]), 'GET');
     }
+
+    /**
+     * Create a new e-invoice record.
+     *
+     * @param  int    $id
+     * @param  array  $params
+     * @return array
+    */
+    public function createEInvoice($id, array $params)
+    {
+        return $this->client->call("sales_invoices/{$id}/e_invoice", [
+            'e_invoice' => $params,
+        ], 'POST');
+    }
+
+    /**
+     * Create a new e-archive record.
+     *
+     * @param  int    $id
+     * @param  array  $params
+     * @return array
+    */
+    public function createEArchive($id, array $params)
+    {
+        return $this->client->call("sales_invoices/{$id}/e_archive", [
+            'e_archive' => $params,
+        ], 'POST');
+    }
     
-    /** Retrieve invoice e invoice type
+    /**
+     * Retrieve the e-invoice's document type.
      *
-     * @param Sales invoice id}
+     * @param  int  $id
      * @return array
     */
-    public function eDocumentType($invoiceID){
-            return $this->client->call("sales_invoices/{$invoiceID}/e_document_type",[],'GET');
+    public function getEInvoiceType($id)
+    {
+        return $this->client->call("sales_invoices/{$id}/e_document_type", null, 'GET');
     }
 
-    /** Retrieve e_invoice inboxes
+    /**
+     * Retrieve the invoice's document status.
      *
-     * @param vkn
+     * @param  int  $id
      * @return array
     */
-    public function eInvoiceInboxes($vkn){
-            return $this->client->call("e_invoice_inboxes",["vkn"=>$vkn],'GET');
+    public function getEInvoiceStatus($id)
+    {
+        return $this->client->call("sales_invoices/{$id}/e_document_status", null, 'GET');
     }
-
-    /** Retrieve invoice e invoice status
+    
+    /**
+     * Retrieve the e-invoice's inbox details.
      *
-     * @param Sales invoice id
+     * @param  string  $vatId
      * @return array
     */
-    public function eDocumentStatus($invoiceID){
-            return $this->client->call("sales_invoices/{$invoiceID}/e_document_status",[],'GET');
-    }
-
-    /** Create a e_archive invoice from sale invoice
-     *
-     * @param Sales invoice id
-     * @return array
-    */
-    public function eArchive($invoiceID,$eArchiveInformation){
-            return $this->client->call("sales_invoices/{$invoiceID}/e_archive",[
-                    'e_archive'=>$eArchiveInformation
-            ],'POST');
-    }
-
-
-    /** Create a e_invoice from sale invoice
-     *
-     * @param Sales invoice id
-     * @return array
-    */
-    public function eInvoice($invoiceID,$eInvoiceInformation){
-            return $this->client->call("sales_invoices/{$invoiceID}/e_invoice",[
-                    'e_invoice'=>$eInvoiceInformation
-            ],'POST');
+    public function getEInvoiceInboxes($taxNumber)
+    {
+        return $this->client->call("e_invoice_inboxes",[
+            'vkn' => $taxNumber,
+        ], 'GET');
     }
 }
