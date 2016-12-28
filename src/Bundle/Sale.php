@@ -124,4 +124,54 @@ class Sale extends Bundle
             'last_synch' => $timestamp
         ]), 'GET');
     }
+    
+    /** Retrieve invoice e invoice type
+     *
+     * @param Sales invoice id}
+     * @return array
+    */
+    public function eDocumentType($invoiceID){
+            return $this->client->call("sales_invoices/{$invoiceID}/e_document_type",[],'GET');
+    }
+
+    /** Retrieve e_invoice inboxes
+     *
+     * @param vkn
+     * @return array
+    */
+    public function eInvoiceInboxes($vkn){
+            return $this->client->call("e_invoice_inboxes",["vkn"=>$vkn],'GET');
+    }
+
+    /** Retrieve invoice e invoice status
+     *
+     * @param Sales invoice id
+     * @return array
+    */
+    public function eDocumentStatus($invoiceID){
+            return $this->client->call("sales_invoices/{$invoiceID}/e_document_status",[],'GET');
+    }
+
+    /** Create a e_archive invoice from sale invoice
+     *
+     * @param Sales invoice id
+     * @return array
+    */
+    public function eArchive($invoiceID,$eArchiveInformation){
+            return $this->client->call("sales_invoices/{$invoiceID}/e_archive",[
+                    'e_archive'=>$eArchiveInformation
+            ],'POST');
+    }
+
+
+    /** Create a e_invoice from sale invoice
+     *
+     * @param Sales invoice id
+     * @return array
+    */
+    public function eInvoice($invoiceID,$eInvoiceInformation){
+            return $this->client->call("sales_invoices/{$invoiceID}/e_invoice",[
+                    'e_invoice'=>$eInvoiceInformation
+            ],'POST');
+    }
 }
