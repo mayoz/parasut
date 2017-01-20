@@ -28,13 +28,15 @@ class Sale extends Bundle
      *
      * @param  int  $page
      * @param  int  $limit
+     * @param  string|null  $lastSynch
      * @return array
      */
-    public function get($page = 1, $limit = 25)
+    public function get($page = 1, $limit = 25, $lastSynch = null)
     {
         return $this->client->call("sales_invoices", [
             'page' => $page,
             'per_page' => $limit,
+            'last_synch' => $lastSynch,
         ], 'GET');
     }
 
